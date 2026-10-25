@@ -77,12 +77,12 @@ const scenario = [
   },
   { name: "main-dot-goal", bundle: MAIN, queue: DEFAULT_TASK_QUEUE, type: "dotGoalWorkflow", args: [{ goalId: "goal-recorder" }] },
   {
-    name: "main-supervisor", bundle: MAIN, queue: DEFAULT_TASK_QUEUE, type: "roomAgentSupervisorWorkflow",
+    name: "main-supervisor-first-run", bundle: MAIN, queue: DEFAULT_TASK_QUEUE, type: "roomAgentSupervisorWorkflow",
     args: [{
       roomId: "room-recorder", monitoringMissionIds: [], interrupted: [], processedCount: 49,
       pending: [{ missionId: "mission-recorder", turn: { ...turn, agentRunId: "agent-run-recorder", traceId: "trace-recorder-1" } }]
     }],
-    terminateAfterMs: 1500
+    recordFirstRun: true
   },
   {
     name: "maintenance-run", bundle: MAINTENANCE, queue: MEMORY_MAINTENANCE_TASK_QUEUE, type: "memoryMaintenanceWorkflow",
@@ -99,6 +99,22 @@ const scenario = [
 ];
 
 const namespace = "default";
+
+/**
+ * Waits until the workflow has handed over to a new run, then returns the id of the
+ * run that was superseded. Waiting on the run id instead of sleeping a fixed interval
+ * keeps the recorded history shape stable across machines.
+ */
+async function waitForContinuation(env, workflowId, firstRunId, name, timeoutMs = 120_000) {
+  const latest = env.client.workflow.getHandle(workflowId);
+  const deadline = Date.now() + timeoutMs;
+  for (;;) {
+    const description = await latest.describe();
+    if (description.runId !== firstRunId) return;
+    if (Date.now() > deadline) throw new Error(`${name}: the run never continued as new`);
+    await new Promise((resolve) => setTimeout(resolve, 50));
+  }
+}
 
 async function main() {
   const env = await TestWorkflowEnvironment.createTimeSkipping();
@@ -118,21 +134,23 @@ async function main() {
       const handle = await env.client.workflow.start(entry.type, {
         taskQueue: entry.queue, workflowId, args: entry.args
       });
-      if (entry.terminateAfterMs) {
-        // The supervisor never returns; give it time to record the handover, then stop.
-        await new Promise((resolve) => setTimeout(resolve, entry.terminateAfterMs));
-        await handle.terminate("recorded for the replay gate");
-      } else {
-        await handle.result();
-      }
-      const description = await env.client.workflow.getHandle(workflowId).describe();
+
+      // A workflow that never returns is recorded from its first run: that is the run
+      // holding the activities, the child workflow and the handover, not the idle run
+      // that continueAsNew leaves behind.
+      const recordedRunId = handle.firstExecutionRunId;
+      if (entry.recordFirstRun) await waitForContinuation(env, workflowId, recordedRunId, entry.name);
+      else await handle.result();
+
       const response = await env.client.workflowService.getWorkflowExecutionHistory({
         namespace,
-        execution: { workflowId, runId: description.runId }
+        execution: { workflowId, runId: recordedRunId }
       });
       const events = response.history?.events?.length ?? 0;
       await writeFile(join(fixtures, `${entry.name}.json`), `${JSON.stringify(response.history, null, 2)}\n`, "utf8");
-      console.log(`recorded ${entry.name}.json (${events} events)`);
+      console.log(`recorded ${entry.name}.json (${events} events, run ${recordedRunId.slice(0, 8)})`);
+
+      if (entry.recordFirstRun) await handle.terminate("recorded for the replay gate");
     }
   } finally {
     for (const worker of workers) worker.shutdown();

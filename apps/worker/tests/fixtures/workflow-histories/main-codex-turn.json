@@ -3,8 +3,8 @@
     {
       "eventId": "1",
       "eventTime": {
-        "seconds": "2108274032",
-        "nanos": 998000000
+        "seconds": "2108277222",
+        "nanos": 132000000
       },
       "eventType": "EVENT_TYPE_WORKFLOW_EXECUTION_STARTED",
       "workflowExecutionStartedEventAttributes": {
@@ -34,9 +34,9 @@
         "workflowTaskTimeout": {
           "seconds": "10"
         },
-        "originalExecutionRunId": "9b3e3f67-6395-468d-bbcf-b65e524ddffe",
-        "identity": "9336@DESKTOP-6JCB1MB",
-        "firstExecutionRunId": "9b3e3f67-6395-468d-bbcf-b65e524ddffe",
+        "originalExecutionRunId": "ac6aced3-d376-4fe6-b8b8-d2aef2b004d4",
+        "identity": "16412@DESKTOP-6JCB1MB",
+        "firstExecutionRunId": "ac6aced3-d376-4fe6-b8b8-d2aef2b004d4",
         "attempt": 1,
         "firstWorkflowTaskBackoff": {},
         "header": {}
@@ -45,8 +45,8 @@
     {
       "eventId": "2",
       "eventTime": {
-        "seconds": "2108274032",
-        "nanos": 998000000
+        "seconds": "2108277222",
+        "nanos": 132000000
       },
       "eventType": "EVENT_TYPE_WORKFLOW_TASK_SCHEDULED",
       "workflowTaskScheduledEventAttributes": {
@@ -63,32 +63,32 @@
     {
       "eventId": "3",
       "eventTime": {
-        "seconds": "2108274032",
-        "nanos": 998000000
+        "seconds": "2108277222",
+        "nanos": 132000000
       },
       "eventType": "EVENT_TYPE_WORKFLOW_TASK_STARTED",
       "workflowTaskStartedEventAttributes": {
         "scheduledEventId": "2",
-        "identity": "9336@DESKTOP-6JCB1MB",
-        "historySizeBytes": "377"
+        "identity": "16412@DESKTOP-6JCB1MB",
+        "historySizeBytes": "376"
       }
     },
     {
       "eventId": "4",
       "eventTime": {
-        "seconds": "2108274033",
-        "nanos": 421000000
+        "seconds": "2108277222",
+        "nanos": 510000000
       },
       "eventType": "EVENT_TYPE_WORKFLOW_TASK_COMPLETED",
       "workflowTaskCompletedEventAttributes": {
         "scheduledEventId": "2",
-        "identity": "9336@DESKTOP-6JCB1MB",
+        "identity": "16412@DESKTOP-6JCB1MB",
         "binaryChecksum": "@temporalio/worker@1.24.0+fb587b11958185d14c39963c565443c18de6f11cf53c1bf08ae3a0d70f2405ae",
         "sdkMetadata": {
           "coreUsedFlags": [
-            3,
             1,
-            2
+            2,
+            3
           ],
           "sdkName": "temporal-typescript",
           "sdkVersion": "1.24.0"
@@ -99,8 +99,8 @@
     {
       "eventId": "5",
       "eventTime": {
-        "seconds": "2108274033",
-        "nanos": 421000000
+        "seconds": "2108277222",
+        "nanos": 510000000
       },
       "eventType": "EVENT_TYPE_ACTIVITY_TASK_SCHEDULED",
       "activityTaskScheduledEventAttributes": {
@@ -151,21 +151,21 @@
     {
       "eventId": "6",
       "eventTime": {
-        "seconds": "2108274033",
-        "nanos": 421000000
+        "seconds": "2108277222",
+        "nanos": 510000000
       },
       "eventType": "EVENT_TYPE_ACTIVITY_TASK_STARTED",
       "activityTaskStartedEventAttributes": {
         "scheduledEventId": "5",
-        "identity": "9336@DESKTOP-6JCB1MB",
+        "identity": "16412@DESKTOP-6JCB1MB",
         "attempt": 1
       }
     },
     {
       "eventId": "7",
       "eventTime": {
-        "seconds": "2108274033",
-        "nanos": 423000000
+        "seconds": "2108277222",
+        "nanos": 511000000
       },
       "eventType": "EVENT_TYPE_ACTIVITY_TASK_COMPLETED",
       "activityTaskCompletedEventAttributes": {
@@ -181,14 +181,14 @@
         },
         "scheduledEventId": "5",
         "startedEventId": "6",
-        "identity": "9336@DESKTOP-6JCB1MB"
+        "identity": "16412@DESKTOP-6JCB1MB"
       }
     },
     {
       "eventId": "8",
       "eventTime": {
-        "seconds": "2108274033",
-        "nanos": 423000000
+        "seconds": "2108277222",
+        "nanos": 511000000
       },
       "eventType": "EVENT_TYPE_WORKFLOW_TASK_SCHEDULED",
       "workflowTaskScheduledEventAttributes": {
@@ -205,26 +205,26 @@
     {
       "eventId": "9",
       "eventTime": {
-        "seconds": "2108274033",
-        "nanos": 423000000
+        "seconds": "2108277222",
+        "nanos": 512000000
       },
       "eventType": "EVENT_TYPE_WORKFLOW_TASK_STARTED",
       "workflowTaskStartedEventAttributes": {
         "scheduledEventId": "8",
-        "identity": "9336@DESKTOP-6JCB1MB",
-        "historySizeBytes": "1154"
+        "identity": "16412@DESKTOP-6JCB1MB",
+        "historySizeBytes": "1156"
       }
     },
     {
       "eventId": "10",
       "eventTime": {
-        "seconds": "2108274033",
-        "nanos": 426000000
+        "seconds": "2108277222",
+        "nanos": 517000000
       },
       "eventType": "EVENT_TYPE_WORKFLOW_TASK_COMPLETED",
       "workflowTaskCompletedEventAttributes": {
         "scheduledEventId": "8",
-        "identity": "9336@DESKTOP-6JCB1MB",
+        "identity": "16412@DESKTOP-6JCB1MB",
         "binaryChecksum": "@temporalio/worker@1.24.0+fb587b11958185d14c39963c565443c18de6f11cf53c1bf08ae3a0d70f2405ae",
         "sdkMetadata": {},
         "meteringMetadata": {}
@@ -233,8 +233,8 @@
     {
       "eventId": "11",
       "eventTime": {
-        "seconds": "2108274033",
-        "nanos": 426000000
+        "seconds": "2108277222",
+        "nanos": 517000000
       },
       "eventType": "EVENT_TYPE_WORKFLOW_EXECUTION_COMPLETED",
       "workflowExecutionCompletedEventAttributes": {

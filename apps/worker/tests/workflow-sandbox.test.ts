@@ -351,20 +351,20 @@ describe("dotGoalWorkflow", () => {
     expect(called("dotGoalObserve")).toHaveLength(3);
   }, 120_000);
 
-  it("continues as new while the goal is still unfinished", async () => {
-    // The live handover needs the workflow to burn its full 300-iteration budget,
-    // and every iteration is a real activity round trip (minutes, not seconds).
-    // That would blow the CI budget this issue caps at three minutes, so the live
-    // continuation of this workflow is covered by a recorded history in
-    // tests/workflow-histories. Replay drives the same code path without executing
-    // 300 activities, and `runDotGoalLoop` reports the unfinished goal directly.
+  it("reports an unfinished goal when the loop exhausts its iteration budget", async () => {
+    // This drives `runDotGoalLoop` directly; it does not start dotGoalWorkflow, so it
+    // does not exercise continueAsNew itself. What it pins down is the value the
+    // workflow branches on: `goalStatus === null` is the only input that reaches
+    // `continueAsNew`. The end-to-end handover needs the workflow to burn its full
+    // 300-iteration budget, and every iteration is a real activity round trip, which
+    // takes minutes and would break the three-minute CI budget this issue sets. The
+    // branch itself is one line and stays uncovered here on purpose.
     let steps = 0;
     const result = await runDotGoalLoop("goal-budget-sandbox", {
       step: async () => { steps += 1; return { state: "WAITING", runId: null, goalStatus: "RUNNING" }; },
       observe: async () => ({ run: "SUCCEEDED", goalStatus: "RUNNING" }),
       wait: async () => undefined
     }, 3);
-    // `goalStatus === null` is exactly what makes dotGoalWorkflow continue as new.
     expect(result).toEqual({ goalStatus: null });
     expect(steps).toBe(3);
   }, 30_000);
@@ -484,4 +484,5 @@ describe("roomAgentSupervisorWorkflow", () => {
     // The carried queue and counter are handed to the next run, which idles on its signals.
     await handle.terminate("sandbox test finished");
   }, 180_000);
+
 });

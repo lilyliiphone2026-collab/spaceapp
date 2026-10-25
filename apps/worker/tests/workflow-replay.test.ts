@@ -31,6 +31,28 @@ const BUNDLES: Record<string, string> = {
 
 type Recorded = { workflowId: string; history: { events: Array<Record<string, any>> } };
 
+/**
+ * One fixture per workflow, written by `scripts/record-workflow-histories.mjs`.
+ * Listing them explicitly is what makes a deleted or renamed fixture fail: the
+ * per-bundle tests below only require each bundle to be non-empty, so a single
+ * surviving file would otherwise keep them green while coverage quietly shrank.
+ */
+const EXPECTED_FIXTURES = [
+  "main-codex-turn.json",
+  "main-dot-goal.json",
+  "main-dummy-turn.json",
+  "main-room-action.json",
+  "main-supervisor-first-run.json",
+  "maintenance-consolidation.json",
+  "maintenance-run.json",
+  "mutation-run.json"
+];
+
+it("keeps exactly one recorded history per workflow", async () => {
+  const files = (await readdir(FIXTURES)).filter((file) => file.endsWith(".json"));
+  expect([...files].sort()).toEqual([...EXPECTED_FIXTURES].sort());
+}, 30_000);
+
 async function historiesFor(prefix: string): Promise<Recorded[]> {
   const files = (await readdir(FIXTURES)).filter((file) => file.endsWith(".json") && file.startsWith(`${prefix}-`)).sort();
   return Promise.all(files.map(async (file) => {
