@@ -106,6 +106,37 @@ Keep changes reviewable and include the exact commands and limitations of your
 verification. Never include credentials, private transcripts or local runtime
 state in a contribution.
 
+## Workflow sandbox and replay histories
+
+`apps/worker/tests/workflow-sandbox.test.ts` runs every workflow in `apps/worker/src`
+inside a real `TestWorkflowEnvironment.createTimeSkipping()` worker with stubbed
+activities: no database, no Docker, no provider. The mocked suites next to it keep
+their unit-level coverage; the sandbox suite is what exercises real timers, signal
+ordering and `continueAsNew`.
+
+`apps/worker/tests/workflow-replay.test.ts` replays the JSON histories in
+`apps/worker/tests/fixtures/workflow-histories/` against the current workflow code,
+so a change that is not replay-compatible fails in CI instead of in a user's
+installation. `apps/worker/tests/workflow-replay-gate.test.ts` proves the gate itself
+still fires: it replays one history against unchanged code and against a copy that
+adds a timer, and requires the second to fail with a determinism violation.
+
+### Re-recording a history
+
+```sh
+npm run temporal:record-histories -w @space/worker
+```
+
+The script runs one canonical execution per workflow in the time-skipping sandbox and
+overwrites the fixtures. Treat the output as test data, not as a snapshot to refresh
+when a test is red.
+
+**Re-record only together with a `patched()` change that keeps running executions
+valid.** Never re-record to make a failing replay pass: a failing replay means a
+deployed execution would break when the worker picks it up. If a workflow change is
+intentionally replay-breaking, wrap it in `patched()`, add the fixture that covers the
+pre-patch branch, and say so in the pull request.
+
 ## License of contributions
 
 SpaceApp is licensed under the [MIT License](LICENSE). Contributions are

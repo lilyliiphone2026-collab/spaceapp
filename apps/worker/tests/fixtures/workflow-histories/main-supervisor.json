@@ -1,0 +1,160 @@
+{
+  "events": [
+    {
+      "eventId": "1",
+      "eventTime": {
+        "seconds": "3054354035",
+        "nanos": 6000000
+      },
+      "eventType": "EVENT_TYPE_WORKFLOW_EXECUTION_STARTED",
+      "workflowExecutionStartedEventAttributes": {
+        "workflowType": {
+          "name": "roomAgentSupervisorWorkflow"
+        },
+        "taskQueue": {
+          "name": "space-agent-turns",
+          "kind": "TASK_QUEUE_KIND_NORMAL"
+        },
+        "input": {
+          "payloads": [
+            {
+              "metadata": {
+                "encoding": "anNvbi9wbGFpbg=="
+              },
+              "data": "eyJyb29tSWQiOiJyb29tLXJlY29yZGVyIiwicGVuZGluZyI6W10sImludGVycnVwdGVkIjpbXSwibW9uaXRvcmluZ01pc3Npb25JZHMiOltdLCJwcm9jZXNzZWRDb3VudCI6MH0="
+            }
+          ]
+        },
+        "workflowExecutionTimeout": {
+          "seconds": "315360000"
+        },
+        "workflowRunTimeout": {
+          "seconds": "315360000"
+        },
+        "workflowTaskTimeout": {
+          "seconds": "10"
+        },
+        "continuedExecutionRunId": "8021a7d3-18ee-48f1-b8c4-3d0e54bf4b62",
+        "lastCompletionResult": {},
+        "originalExecutionRunId": "6ad3635d-349d-4f1f-bd08-f102edca0005",
+        "identity": "9336@DESKTOP-6JCB1MB",
+        "firstExecutionRunId": "8021a7d3-18ee-48f1-b8c4-3d0e54bf4b62",
+        "attempt": 1,
+        "firstWorkflowTaskBackoff": {}
+      }
+    },
+    {
+      "eventId": "2",
+      "eventTime": {
+        "seconds": "3054354035",
+        "nanos": 6000000
+      },
+      "eventType": "EVENT_TYPE_WORKFLOW_TASK_SCHEDULED",
+      "workflowTaskScheduledEventAttributes": {
+        "taskQueue": {
+          "name": "space-agent-turns",
+          "kind": "TASK_QUEUE_KIND_NORMAL"
+        },
+        "startToCloseTimeout": {
+          "seconds": "10"
+        },
+        "attempt": 1
+      }
+    },
+    {
+      "eventId": "3",
+      "eventTime": {
+        "seconds": "3054354035",
+        "nanos": 6000000
+      },
+      "eventType": "EVENT_TYPE_WORKFLOW_TASK_STARTED",
+      "workflowTaskStartedEventAttributes": {
+        "scheduledEventId": "2",
+        "identity": "9336@DESKTOP-6JCB1MB",
+        "historySizeBytes": "419"
+      }
+    },
+    {
+      "eventId": "4",
+      "eventTime": {
+        "seconds": "3054354035",
+        "nanos": 417000000
+      },
+      "eventType": "EVENT_TYPE_WORKFLOW_TASK_COMPLETED",
+      "workflowTaskCompletedEventAttributes": {
+        "scheduledEventId": "2",
+        "identity": "9336@DESKTOP-6JCB1MB",
+        "binaryChecksum": "@temporalio/worker@1.24.0+fb587b11958185d14c39963c565443c18de6f11cf53c1bf08ae3a0d70f2405ae",
+        "sdkMetadata": {
+          "coreUsedFlags": [
+            2,
+            1,
+            3
+          ],
+          "sdkName": "temporal-typescript",
+          "sdkVersion": "1.24.0"
+        },
+        "meteringMetadata": {}
+      }
+    },
+    {
+      "eventId": "5",
+      "eventTime": {
+        "seconds": "3054354035",
+        "nanos": 417000000
+      },
+      "eventType": "EVENT_TYPE_MARKER_RECORDED",
+      "markerRecordedEventAttributes": {
+        "markerName": "core_patch",
+        "details": {
+          "patch-data": {
+            "payloads": [
+              {
+                "metadata": {
+                  "encoding": "anNvbi9wbGFpbg=="
+                },
+                "data": "eyJpZCI6InJvb20tYmFja2dyb3VuZC1jb250aW51YXRpb24tdjEiLCJkZXByZWNhdGVkIjpmYWxzZX0="
+              }
+            ]
+          }
+        },
+        "workflowTaskCompletedEventId": "3"
+      }
+    },
+    {
+      "eventId": "6",
+      "eventTime": {
+        "seconds": "3054354035",
+        "nanos": 417000000
+      },
+      "eventType": "EVENT_TYPE_UPSERT_WORKFLOW_SEARCH_ATTRIBUTES",
+      "upsertWorkflowSearchAttributesEventAttributes": {
+        "workflowTaskCompletedEventId": "3",
+        "searchAttributes": {
+          "indexedFields": {
+            "TemporalChangeVersion": {
+              "metadata": {
+                "type": "S2V5d29yZExpc3Q=",
+                "encoding": "anNvbi9wbGFpbg=="
+              },
+              "data": "WyJyb29tLWJhY2tncm91bmQtY29udGludWF0aW9uLXYxIl0="
+            }
+          }
+        }
+      }
+    },
+    {
+      "eventId": "7",
+      "eventTime": {
+        "seconds": "3054354035",
+        "nanos": 743000000
+      },
+      "eventType": "EVENT_TYPE_WORKFLOW_EXECUTION_TERMINATED",
+      "workflowExecutionTerminatedEventAttributes": {
+        "reason": "recorded for the replay gate",
+        "details": {},
+        "identity": "9336@DESKTOP-6JCB1MB"
+      }
+    }
+  ]
+}
